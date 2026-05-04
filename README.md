@@ -1,6 +1,5 @@
-# BeaverHacks_2026
-
-LCD "Gameboy" for BeaverHack hackathon
+# LCD "Gameboy"
+Uses STM32F411ceu6
 
 ### To Do:
     1. Make SPI driver - DONE
