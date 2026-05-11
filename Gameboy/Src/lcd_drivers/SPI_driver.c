@@ -45,12 +45,18 @@ void spi1_config(){
     // enable clock for spi1
     RCC_APB2ENR |= (1<<12);
 
+    // make sure DFF in in 8 bits
+    SPI_CR1 &= ~(1<<11);
+
     // set MCU to be master
     SPI_CR1 |= (1<<2);
 
     // SSM/SSI: allows us to pull the CS pin oursleves
     SPI_CR1 |= (1<<9); 
     SPI_CR1 |= (1<<8);
+
+    // set the baud rate scaler to 1/2
+    SPI_CR1 &= ~(0b111<<3);
 
     //enable spi module
     SPI_CR1 |= (1<<6);

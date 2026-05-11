@@ -20,8 +20,16 @@
 # User is free to modify the file as much as necessary
 #
 
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_SYSTEM_PROCESSOR arm)
+
+# This tells CMake we are cross-compiling
+set(CMAKE_CROSSCOMPILING TRUE)
+
+set(CMAKE_TRY_COMPILE_TARGET_TYPE "STATIC_LIBRARY")
+
 # Core project settings
-project("BeaverHacks")
+project("Gameboy")
 enable_language(C ASM)
 message("Build type: " ${CMAKE_BUILD_TYPE})
 
@@ -44,11 +52,14 @@ set(cpu_PARAMS
 set(sources_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/Src/main.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/Delay.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/ILI9341_driver.c
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/SPI_driver.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/lcd_drivers/ILI9341_driver.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/lcd_drivers/SPI_driver.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/pong.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/pong_parts/ball.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/pong_parts/paddle.c
+
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/syscall.c
+    ${CMAKE_CURRENT_SOURCE_DIR}/Src/sysmem.c
 )
 
 # Include directories for all compilers
