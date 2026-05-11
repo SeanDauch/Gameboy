@@ -10,12 +10,16 @@
 
         int velocity_x;
         int velocity_y;
-    }ball;
-
-    typedef struct game game; 
-
-    void move_ball(game* game_game);
+    }ball; 
 
     ball bouncing_ball_init(int ball_center_x, int ball_center_y, int sizeof_ball);
+
+    void ball_bounce_edge(ball* game_ball);
+
+    void move_ball(ball* game_ball);
+
+    
+
+
 
 #endif

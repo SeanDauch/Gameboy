@@ -1,6 +1,8 @@
 #include "main.h"
 #include "ILI9341_driver.h"
 #include "pong.h"
+#include "ball.h"
+#include "Delay.h"
 
 #include <stdint.h>
 
@@ -54,11 +56,14 @@ int main(){
 
     fill_screen('w');
 
-    game my_game = game_init(10, 20);
+    //draw_Square(0,100, 0, 200, 'b');
 
-    play_game(&my_game);
-    
+    ball my_ball = bouncing_ball_init(max_rows/2, max_cols/2, 5);
+
 	while(1){
+        move_ball(&my_ball);
+
+        delay_SysTick(20, system_frequency);
 
     }
 

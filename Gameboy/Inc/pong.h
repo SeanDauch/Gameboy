@@ -4,13 +4,13 @@
     #include "ball.h"
     #include "paddle.h"
 
-    typedef struct game{
+    typedef struct pong_game{
         ball* game_ball;
 
         paddle* p1_paddle;
         paddle* p2_paddle;
-    }game;
+    }pong_game;
 
-    game game_init(int ball_size, int paddle_length);
-    void play_game(game* my_game);
+    pong_game game_init(int ball_size, int paddle_length);
+    void play_game(pong_game* my_game);
 #endif

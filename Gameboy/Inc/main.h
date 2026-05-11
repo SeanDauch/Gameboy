@@ -4,8 +4,8 @@
     #include <stdint.h>
 
     #define system_frequency 20000000
-    #define max_cols 240
-    #define max_rows 320
+    #define max_cols 240 // max y in games
+    #define max_rows 320 // max x in games
     
     #define RCC_base 0x40023800
     #define RCC_CR *((volatile uint32_t*)(RCC_base + 0x00))

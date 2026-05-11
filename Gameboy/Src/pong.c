@@ -6,48 +6,51 @@
 #include "paddle.h"
 #include <stdint.h>
 
-#define RCC_AHB1ENR *((volatile uint32_t*) (0x40023830))
-#define GPIOA_MODER *((volatile uint32_t*) (0x40020000))
-#define GPIOA_PUPDR *((volatile uint32_t*) (0x4002000C))
-#define GPIOA_IDR *((volatile uint32_t*) (0x40020010))
+#define RCC_Base 0x40023800
+#define RCC_AHB1ENR *((volatile uint32_t*)(RCC_Base + 0x30))
+
+#define GPIOB_base 0x40020400
+#define GPIOB_MODER *((volatile uint32_t*)(GPIOB_base))
+#define GPIOB_PUPDR *((volatile uint32_t*)(GPIOB_base + 0x0C))
+#define GPIOB_IDR *((volatile uint32_t*)(GPIOB_base + 0x10))
 
 #define paddle_speed 1
 
-game game_init(int ball_size, int paddle_length){
+pong_game game_init(int ball_size, int paddle_length){
     paddle p1 = paddle_init(10, max_cols/2, paddle_length);
     paddle p2 = paddle_init(max_rows - 10, max_cols/2, paddle_length);
 
     ball game_ball = bouncing_ball_init(max_rows/2, max_cols/2, 10);
 
-    game my_game = {&game_ball, &p1, &p2};
+    pong_game my_game = {&game_ball, &p1, &p2};
 
     RCC_AHB1ENR |= 1<<0;
-    GPIOA_MODER &= ~((3 << 20) | (3 << 22) | (3 << 24) | (3 << 30));
+    GPIOB_MODER &= ~((3 << 20) | (3 << 22) | (3 << 24) | (3 << 30));
 
-    GPIOA_PUPDR &= ~((3 << 20) | (3 << 22) | (3 << 24) | (3 << 30));
-    GPIOA_PUPDR |=  ((2 << 20) | (2 << 22) | (2 << 24) | (2 << 30));
+    GPIOB_PUPDR &= ~((3 << 20) | (3 << 22) | (3 << 24) | (3 << 30));
+    GPIOB_PUPDR |=  ((2 << 20) | (2 << 22) | (2 << 24) | (2 << 30));
 
     return my_game;
 }
 
-void play_game(game* my_game){
+void play_game(pong_game* my_game){
 
     int play = 1;
     while(play == 1){
-        move_ball(my_game);
+        move_ball(my_game->game_ball);
 
-        if(GPIOA_IDR & (1<<10)){
+        if(GPIOB_IDR & (1<<10)){
             move_paddle(my_game->p1_paddle,1);
 
-        }else if(GPIOA_IDR & (1<<11)){
+        }else if(GPIOB_IDR & (1<<11)){
             move_paddle(my_game->p1_paddle,-1);
 
         }
 
-        if(GPIOA_IDR & (1<<12)){
+        if(GPIOB_IDR & (1<<12)){
             move_paddle(my_game->p2_paddle,1);
 
-        }else if(GPIOA_IDR & (1<<15)){
+        }else if(GPIOB_IDR & (1<<15)){
             move_paddle(my_game->p2_paddle,-1);
 
         }
