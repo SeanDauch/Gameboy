@@ -45,26 +45,31 @@ void clock_init(){
     RCC_CFGR &= ~(3<<0);
     RCC_CFGR |= (2<<0);
 
-
-
-
+    // enable GPIO A/B as redundacy
+    RCC_AHB1ENR |= (1<<0) | (1<<1);
 }
 
 
 int main(){
+    clock_init();
+
     ILI9341_Init();
 
     fill_screen('w');
 
     //draw_Square(0,100, 0, 200, 'b');
+    
+    //ball my_ball = bouncing_ball_init(50,50, 10);
 
-    ball my_ball = bouncing_ball_init(max_rows/2, max_cols/2, 5);
+    pong_game pong = game_init(5, 25);
+
+    delay_SysTick(1000, system_frequency);
+
+    play_game(&pong);
 
 	while(1){
-        move_ball(&my_ball);
-
-        delay_SysTick(20, system_frequency);
-
+        //move_ball(&my_ball);
+        //ball_bounce_edge(&my_ball);
     }
 
     return 0;

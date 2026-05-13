@@ -3,13 +3,14 @@
 #include "main.h"
 
 void print_ball(ball* game_ball, char color){
-
+    //fill_screen('w');// ! delete
     draw_Square(game_ball->top_left_y,
         game_ball->bot_right_y,
         game_ball->top_left_x,
         game_ball->bot_right_x,
         color
     );
+    //fill_screen('b');// ! delete
 }
 
 // returns pointer
@@ -20,7 +21,7 @@ ball bouncing_ball_init(int ball_center_x, int ball_center_y, int ball_size){
         ball_center_y - ball_size, // top left y
         ball_center_x + ball_size, // bot right x
         ball_center_y + ball_size, // bot right y
-        3, 3
+        2, 2
     };
 
     print_ball(&game_ball, 'b');
@@ -47,7 +48,6 @@ void ball_bounce_edge(ball* game_ball){
 }
 
 void move_ball(ball* game_ball){
-
     // erase old ball
     print_ball(game_ball, 'w');
 
@@ -57,8 +57,6 @@ void move_ball(ball* game_ball){
 
     game_ball->top_left_y += game_ball->velocity_y;
     game_ball->bot_right_y += game_ball->velocity_y;
-
-    ball_bounce_edge(game_ball);
 
     print_ball(game_ball, 'b');
 }

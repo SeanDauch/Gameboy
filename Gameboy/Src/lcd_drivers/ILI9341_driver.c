@@ -81,6 +81,9 @@ void ILI9341_Init(){
 }
 
 void draw_Square(uint16_t start_col, uint16_t end_col, uint16_t start_row, uint16_t end_row, char color){
+    if(start_col > max_cols || end_col > max_cols || start_row > max_rows || end_row > max_rows){return;}
+
+    if(start_col > end_col || start_row > end_row){return;}
 
     uint16_t RGB_color;
     switch (color){
@@ -113,7 +116,7 @@ void draw_Square(uint16_t start_col, uint16_t end_col, uint16_t start_row, uint1
         WriteData(end_row >> 8); // send high byte
         WriteData((uint8_t)end_row);
 
-    int total_pixel = ((end_col-start_col+1)*(end_row-start_row+1));
+    uint64_t total_pixel = ((end_col-start_col+1)*(end_row-start_row+1));
     WriteCommand(0x2C); // Memory Write
 
         DC_Data();

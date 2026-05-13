@@ -11,4 +11,5 @@
     #define RCC_CR *((volatile uint32_t*)(RCC_base + 0x00))
     #define RCC_PLLCFGR *((volatile uint32_t*)(RCC_base + 0x04))
     #define RCC_CFGR *((volatile uint32_t*)(RCC_base + 0x08))
+    #define RCC_AHB1ENR *((volatile uint32_t*)(RCC_base + 0x30))
 #endif
