@@ -8,6 +8,7 @@
         int length;
     }paddle;
 
+    void print_paddle(paddle* game_paddle, char color);
     paddle paddle_init(int center_x, int center_y, int length);
     void move_paddle(paddle* game_paddle, int speed);
 #endif

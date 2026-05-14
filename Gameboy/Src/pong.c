@@ -16,11 +16,7 @@
 
 #define paddle_speed 1
 
-pong_game game_init(int ball_size, int paddle_length){
-    paddle p1 = paddle_init(20, max_cols/2, paddle_length);
-    paddle p2 = paddle_init(max_rows - 20, max_cols/2, paddle_length);
-
-    ball game_ball = bouncing_ball_init(max_rows/2, max_cols/2, 10);
+pong_game game_init(ball* game_ball, paddle* p1, paddle* p2){
 
     pong_game my_game = {game_ball, p1, p2};
 
@@ -53,13 +49,17 @@ int is_paddle_in_ball(ball* game_ball, paddle* paddle){
 
 void ball_bounce_paddle(pong_game* my_game){
 
-    if(is_paddle_in_ball(&(my_game -> game_ball), &(my_game -> p1_paddle))){
+    if(is_paddle_in_ball(my_game -> game_ball, my_game -> p1_paddle)){
 
-        my_game->game_ball.velocity_x *= -1;
+        my_game->game_ball->velocity_x *= -1; // double speed oposite x
+        my_game->game_ball->velocity_x += 1;
+        //my_game->game_ball->velocity_y *= 2;
 
-    }else if(is_paddle_in_ball(&(my_game -> game_ball), &(my_game -> p2_paddle))){
+    }else if(is_paddle_in_ball(my_game -> game_ball, my_game -> p2_paddle)){
 
-        my_game->game_ball.velocity_x *= -1;
+        my_game->game_ball->velocity_x *= -1; // double speed oposite x
+        my_game->game_ball->velocity_x += -1;
+        //my_game->game_ball->velocity_y *= 2;
 
     }
 }
@@ -68,31 +68,35 @@ void play_game(pong_game* my_game){
 
     int play = 1;
     while(play == 1){
-        move_ball(&(my_game->game_ball));
-        ball_bounce_edge(&(my_game->game_ball));
+        move_ball(my_game->game_ball);
+        ball_bounce_edge(my_game->game_ball);
         ball_bounce_paddle(my_game);
 
 
         if(GPIOB_IDR & (1<<6)){ // p1 up
-            move_paddle(&(my_game->p1_paddle),-3);
+            move_paddle(my_game->p1_paddle,-3);
 
         }else if(GPIOB_IDR & (1<<5)){ // p1 down
-            move_paddle(&(my_game->p1_paddle),3);
+            move_paddle(my_game->p1_paddle,3);
 
+        }else{
+            print_paddle(my_game->p1_paddle, 'b');
         }
 
         if(GPIOB_IDR & (1<<8)){ // p2 up
-            move_paddle(&(my_game->p2_paddle),-3);
+            move_paddle(my_game->p2_paddle,-3);
 
         }else if(GPIOB_IDR & (1<<9)){ // p2 down
-            move_paddle(&(my_game->p2_paddle),3);
+            move_paddle(my_game->p2_paddle,3);
 
+        }else{
+            print_paddle(my_game->p2_paddle, 'b');
         }
 
-        if(my_game->game_ball.bot_right_x >= max_rows){ // p1 wins
+        if(my_game->game_ball->bot_right_x >= max_rows){ // p1 wins
             play = 0;
 
-        }else if(my_game->game_ball.top_left_x <= 0){ // p2 wins
+        }else if(my_game->game_ball->top_left_x <= 0){ // p2 wins
             play = 0;
         }
         delay_SysTick(20, system_frequency);

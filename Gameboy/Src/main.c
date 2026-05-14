@@ -6,6 +6,8 @@
 
 #include <stdint.h>
 
+#define paddle_length 20
+
 // trying to set to 20MHz
 void clock_init(){
 
@@ -57,19 +59,19 @@ int main(){
 
     fill_screen('w');
 
-    //draw_Square(0,100, 0, 200, 'b');
-    
-    //ball my_ball = bouncing_ball_init(50,50, 10);
+    paddle p1 = paddle_init(20, max_cols/2, paddle_length);
+    paddle p2 = paddle_init(max_rows - 20, max_cols/2, paddle_length);
 
-    pong_game pong = game_init(5, 25);
+    ball game_ball = bouncing_ball_init(max_rows/2, max_cols/2, 10);
+
+    pong_game pong = game_init(&game_ball, &p1, &p2);
 
     delay_SysTick(1000, system_frequency);
 
     play_game(&pong);
 
 	while(1){
-        //move_ball(&my_ball);
-        //ball_bounce_edge(&my_ball);
+
     }
 
     return 0;
