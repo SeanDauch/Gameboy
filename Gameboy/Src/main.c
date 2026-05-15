@@ -3,7 +3,9 @@
 #include "pong.h"
 #include "ball.h"
 #include "Delay.h"
+#include "adc_drivers.h"
 
+#include <stdio.h>
 #include <stdint.h>
 
 #define paddle_length 20
@@ -55,10 +57,13 @@ void clock_init(){
 int main(){
     clock_init();
 
+    
     ILI9341_Init();
 
     fill_screen('w');
+    fill_screen('b');
 
+    /*
     paddle p1 = paddle_init(20, max_cols/2, paddle_length);
     paddle p2 = paddle_init(max_rows - 20, max_cols/2, paddle_length);
 
@@ -68,10 +73,15 @@ int main(){
 
     delay_SysTick(1000, system_frequency);
 
-    play_game(&pong);
+    play_game(&pong);*/
+
+    adc_GPIOA_init(3);
+    adc_init();
 
 	while(1){
+        uint16_t data = adc_regular_conversion();
 
+        printf("%d\n", data);
     }
 
     return 0;

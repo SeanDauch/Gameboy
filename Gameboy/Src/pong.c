@@ -82,6 +82,7 @@ void play_game(pong_game* my_game){
         }else{
             print_paddle(my_game->p1_paddle, 'b');
         }
+        
 
         if(GPIOB_IDR & (1<<8)){ // p2 up
             move_paddle(my_game->p2_paddle,-3);
