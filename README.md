@@ -2,7 +2,7 @@
 Uses STM32F411ceu6
 
 ### To Do:
-    1. ~~Make SPI driver - DONE~~
+1. ~~Make SPI driver - DONE~~
     2. ~~Use spi to make lcd drivers - DONE~~
         2a. ~~Decide if we need DMA - Dont have time~~
     3. ~~Make game - PONG~~
