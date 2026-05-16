@@ -19,4 +19,5 @@ Uses STM32F411ceu6
     4. Make a SWO driver to test ADC and printf
         i. create SWO_init using altfunction and ITM
         ii. provide declaration for __io_putchar(*ptr++);
+        iii. test swo_drivers with openOCD
     5. Use ADC to seed rand

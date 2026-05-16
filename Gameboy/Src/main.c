@@ -4,6 +4,7 @@
 #include "ball.h"
 #include "Delay.h"
 #include "adc_drivers.h"
+#include "swo_drivers.h"
 
 #include <stdio.h>
 #include <stdint.h>
@@ -13,11 +14,11 @@
 // trying to set to 20MHz
 void clock_init(){
 
-    // wait for HSI ready flag
-    while(!(RCC_CR & (1<<1))){}
-
     // enable HSI
     RCC_CR |= (1<<0);
+
+    // wait for HSI ready flag
+    while(!(RCC_CR & (1<<1))){}
 
     /* working on PLL 
         F_pll = F_vco /pllp
@@ -39,11 +40,11 @@ void clock_init(){
         RCC_PLLCFGR &= ~(3<<16);
         RCC_PLLCFGR |= (3<<16); // 0b11
     
-    // wait for PLL to be ready
-    while(RCC_CR & (1<<25)){}
-
     // enable PLL
     RCC_CR |= (1<<24);
+    
+    // wait for PLL to be locked
+    while(!(RCC_CR & (1<<25))){}
 
     // set PLL as system clock
     RCC_CFGR &= ~(3<<0);
@@ -60,8 +61,12 @@ int main(){
     
     ILI9341_Init();
 
+    swo_init_printf();
+
     fill_screen('w');
     fill_screen('b');
+
+    printf("freakbob\n");
 
     /*
     paddle p1 = paddle_init(20, max_cols/2, paddle_length);
@@ -75,13 +80,13 @@ int main(){
 
     play_game(&pong);*/
 
-    adc_GPIOA_init(3);
-    adc_init();
+    //adc_GPIOA_init(3);
+    //adc_init();
 
 	while(1){
-        uint16_t data = adc_regular_conversion();
+        //uint16_t data = adc_regular_conversion();
 
-        printf("%d\n", data);
+        //printf("%d\n", data);
     }
 
     return 0;
