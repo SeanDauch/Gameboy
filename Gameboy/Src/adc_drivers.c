@@ -9,31 +9,41 @@
 #define ADC_SR *((volatile uint32_t*)(ADC1_Base + 0x00))
 #define ADC_CR1 *((volatile uint32_t*)(ADC1_Base + 0x04))
 #define ADC_CR2 *((volatile uint32_t*)(ADC1_Base + 0x08))
+#define ADC_SQR1 *((volatile uint32_t*)(ADC1_Base + 0x2c))
+#define ADC_SQR2 *((volatile uint32_t*)(ADC1_Base + 0x30))
+#define ADC_SQR3 *((volatile uint32_t*)(ADC1_Base + 0x34))
 #define ADC_DR *((volatile uint32_t*)(ADC1_Base + 0x4c))
 
 #define GPIOA_Base 0x40020000
 #define GPIOA_MODER *((volatile uint32_t*)(GPIOA_Base + 0x00))
 
-void adc_GPIOA_init(short pin_number){
+void adc_GPIOA_init(uint8_t pin_number){
 
     // set pin to analog mode
     GPIOA_MODER |= (3<<(2*pin_number));
 }
 
-void adc_init(){
+// 0-18 ADC channels
+void adc_init(uint8_t ADC_channel_go_first){
 
     // turn on ADC1 clock
     RCC_APB2ENR |= (1<<8);
 
-    // set resolution to 8 bits
+    // turn ADC on
+    ADC_CR2 |= (1<<0);
+
+    // tells how many ADC channels need converting
+    ADC_SQR1 &= ~(0xf<<20); // 0b0000 means 1 conversion
+
+    // put the channel to go first
+    ADC_SQR3 |= (ADC_channel_go_first<<0);
+
+    // set resolution to 12 bits
     ADC_CR1 &= ~(3<<24);
-    ADC_CR1 |= (2<<24);
 
     // make sure right alignment
     ADC_CR2 &= ~(1<<11);
 
-    // turn ADC on
-    ADC_CR2 |= (1<<0);
 }
 
 uint16_t adc_regular_conversion(){

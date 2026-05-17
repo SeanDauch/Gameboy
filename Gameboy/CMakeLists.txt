@@ -59,7 +59,6 @@ set(sources_SRCS
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/pong_parts/paddle.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/adc_drivers.c
 
-    ${CMAKE_CURRENT_SOURCE_DIR}/Src/swo_drivers.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/syscall.c
     ${CMAKE_CURRENT_SOURCE_DIR}/Src/sysmem.c
 )

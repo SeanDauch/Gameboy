@@ -4,7 +4,6 @@
 #include "ball.h"
 #include "Delay.h"
 #include "adc_drivers.h"
-#include "swo_drivers.h"
 
 #include <stdio.h>
 #include <stdint.h>
@@ -61,12 +60,14 @@ int main(){
     
     ILI9341_Init();
 
-    swo_init_printf();
-
     fill_screen('w');
     fill_screen('b');
 
-    printf("freakbob\n");
+    adc_GPIOA_init(3);
+
+    adc_init(3);
+
+    int data = 0;
 
     /*
     paddle p1 = paddle_init(20, max_cols/2, paddle_length);
@@ -84,6 +85,8 @@ int main(){
     //adc_init();
 
 	while(1){
+        data = adc_regular_conversion();
+
         //uint16_t data = adc_regular_conversion();
 
         //printf("%d\n", data);
