@@ -57,19 +57,14 @@ void clock_init(){
 int main(){
     clock_init();
 
-    
     ILI9341_Init();
 
     fill_screen('w');
-    fill_screen('b');
 
     adc_GPIOA_init(3);
 
     adc_init(3);
 
-    int data = 0;
-
-    /*
     paddle p1 = paddle_init(20, max_cols/2, paddle_length);
     paddle p2 = paddle_init(max_rows - 20, max_cols/2, paddle_length);
 
@@ -79,17 +74,10 @@ int main(){
 
     delay_SysTick(1000, system_frequency);
 
-    play_game(&pong);*/
-
-    //adc_GPIOA_init(3);
-    //adc_init();
+    play_game(&pong);
 
 	while(1){
-        data = adc_regular_conversion();
 
-        //uint16_t data = adc_regular_conversion();
-
-        //printf("%d\n", data);
     }
 
     return 0;

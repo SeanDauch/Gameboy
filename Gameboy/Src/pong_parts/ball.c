@@ -1,6 +1,9 @@
 #include "ball.h"
 #include "ILI9341_driver.h"
 #include "main.h"
+#include "adc_drivers.h"
+
+#include <stdlib.h>
 
 void print_ball(ball* game_ball, char color){
     //fill_screen('w');// ! delete
@@ -16,12 +19,44 @@ void print_ball(ball* game_ball, char color){
 // returns pointer
 ball bouncing_ball_init(int ball_center_x, int ball_center_y, int ball_size){
 
+    int velo_y = 0;
+    int velo_x = 0;
+    int random = 0;
+
+    srand(adc_regular_conversion());
+    random = rand() % 4;
+
+    switch (random){
+    case 0:
+        velo_x = 1;
+        velo_y = 1;
+        break;
+
+    case 1:
+        velo_x = -1;
+        velo_y = 1;
+        break;
+
+    case 2:
+        velo_x = -1;
+        velo_y = -1;
+        break;
+
+    case 3:
+        velo_x = 1;
+        velo_y = -1;
+        break;
+    }
+    
+
+
+
     ball game_ball = {
         ball_center_x - ball_size, // top left x
         ball_center_y - ball_size, // top left y
         ball_center_x + ball_size, // bot right x
         ball_center_y + ball_size, // bot right y
-        2, 2
+        velo_x, velo_y
     };
 
     print_ball(&game_ball, 'b');
