@@ -16,8 +16,8 @@ Uses STM32F411ceu6
        - ~~has x/y~~
      - ~~create fuction for drawing~~
      - ~~add if statements for paddle colision~~
-4. ~~Make a SWO driver to test ADC and printf~~
+4. ~~Make a SWO driver to test ADC and printf~~ (Use debug menu instead, printf debugging stinks)
    - ~~create SWO_init using altfunction and ITM~~
    - ~~provide declaration for __io_putchar(*ptr++);~~
-   - test swo_drivers with openOCD
+   - ~~test swo_drivers with openOCD~~
 5. Use ADC to seed rand
