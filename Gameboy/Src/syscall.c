@@ -30,9 +30,6 @@
 #include <sys/time.h>
 #include <sys/times.h>
 
-//* provides definition for __io_putchar
-#include "swo_drivers.h"
-
 
 /* Variables */
 extern int __io_putchar(int ch) __attribute__((weak));
