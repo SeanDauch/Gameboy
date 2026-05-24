@@ -6,6 +6,8 @@
         int y;
 
         int length;
+
+        int last_y_pos;
     }paddle;
 
     void print_paddle(paddle* game_paddle, char color);

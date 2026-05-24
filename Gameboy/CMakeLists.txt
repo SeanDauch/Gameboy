@@ -44,8 +44,8 @@ set(CMAKE_CXX_EXTENSIONS ON)
 # Core MCU flags, CPU type, instruction set and FPU setup
 set(cpu_PARAMS 
     # Other parameters
-    # -mthumb
-    # -mcpu, -mfloat, -mfloat-abi, ...
+    -mthumb
+    -mcpu=cortex-m4 #, -mfloat, #-mfloat-abi, ...
 )
 
 # Sources
@@ -98,6 +98,11 @@ set(linker_OPTS)
 # This will add script generated
 # information to the project
 include("cmake/vscode_generated.cmake")
+
+# FORCE EXPLICIT TOOLCHAIN UTILITIES FIX
+set(TOOLCHAIN_BIN_DIR "/opt/arm-gnu-toolchain-15.2.rel1-x86_64-arm-none-eabi/bin")
+set(CMAKE_SIZE "${TOOLCHAIN_BIN_DIR}/arm-none-eabi-size")
+set(CMAKE_OBJCOPY "${TOOLCHAIN_BIN_DIR}/arm-none-eabi-objcopy")
 
 # Link directories setup
 # Must be before executable is added

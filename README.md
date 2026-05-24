@@ -20,4 +20,7 @@ Uses STM32F411ceu6
    - ~~create SWO_init using altfunction and ITM~~
    - ~~provide declaration for __io_putchar(*ptr++);~~
    - ~~test swo_drivers with openOCD~~
-5. Use ADC to seed rand
+5. ~~Use ADC to seed rand~~
+6. Make ball bouce verticaly off the paddles
+7. Add DMA
+8. Add IMU for new game?

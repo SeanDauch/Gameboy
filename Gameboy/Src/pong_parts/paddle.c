@@ -15,7 +15,7 @@ void print_paddle(paddle* game_paddle, char color){
 }
 
 paddle paddle_init(int center_x, int center_y, int length){
-    paddle game_paddle = {center_x, center_y, length};
+    paddle game_paddle = {center_x, center_y, length, center_x};
 
     print_paddle(&game_paddle, 'b');
 
@@ -25,6 +25,9 @@ paddle paddle_init(int center_x, int center_y, int length){
 void move_paddle(paddle* game_paddle, int speed){
     // erase old paddle
     print_paddle(game_paddle, 'w');
+
+    // set last_y_pos
+    game_paddle->last_y_pos = game_paddle->y;
 
     // shift paddle over
     game_paddle->y += speed;

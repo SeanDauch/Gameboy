@@ -32,7 +32,7 @@ pong_game game_init(ball* game_ball, paddle* p1, paddle* p2){
     return my_game;
 }
 
-int is_paddle_in_ball(ball* game_ball, paddle* paddle){
+static int is_paddle_in_ball(ball* game_ball, paddle* paddle){
     int paddle_top_y = paddle->y - paddle -> length;
     int paddle_bot_y = paddle->y + paddle -> length;
 
@@ -47,19 +47,31 @@ int is_paddle_in_ball(ball* game_ball, paddle* paddle){
     return 0;
 }
 
-void ball_bounce_paddle(pong_game* my_game){
+static void ball_bounce_paddle(pong_game* my_game){
 
     if(is_paddle_in_ball(my_game -> game_ball, my_game -> p1_paddle)){
 
         my_game->game_ball->velocity_x *= -1; // double speed oposite x
         my_game->game_ball->velocity_x += 1;
-        //my_game->game_ball->velocity_y *= 2;
+
+        if(my_game->p1_paddle->last_y_pos > my_game->p1_paddle->x){ // paddle moving up
+            my_game->game_ball->velocity_y += -1;
+
+        }else if(my_game->p1_paddle->last_y_pos < my_game->p1_paddle->x){ // paddle moving down
+            my_game->game_ball->velocity_y += 1;
+        }
 
     }else if(is_paddle_in_ball(my_game -> game_ball, my_game -> p2_paddle)){
 
         my_game->game_ball->velocity_x *= -1; // double speed oposite x
         my_game->game_ball->velocity_x += -1;
-        //my_game->game_ball->velocity_y *= 2;
+        
+        if(my_game->p2_paddle->last_y_pos > my_game->p2_paddle->x){ // paddle moving up
+            my_game->game_ball->velocity_y += -1;
+
+        }else if(my_game->p2_paddle->last_y_pos < my_game->p2_paddle->x){ // paddle moving down
+            my_game->game_ball->velocity_y += 1;
+        }
 
     }
 }
