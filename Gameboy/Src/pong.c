@@ -4,7 +4,9 @@
 #include "ILI9341_driver.h"
 #include "ball.h"
 #include "paddle.h"
+
 #include <stdint.h>
+#include <stdlib.h> // need for abs val in ball bounce
 
 #define RCC_Base 0x40023800
 #define RCC_AHB1ENR *((volatile uint32_t*)(RCC_Base + 0x30))
@@ -51,25 +53,25 @@ static void ball_bounce_paddle(pong_game* my_game){
 
     if(is_paddle_in_ball(my_game -> game_ball, my_game -> p1_paddle)){
 
-        my_game->game_ball->velocity_x *= -1; // double speed oposite x
+        my_game->game_ball->velocity_x = abs(my_game->game_ball->velocity_x); // ensures ball goes right
         my_game->game_ball->velocity_x += 1;
 
-        if(my_game->p1_paddle->last_y_pos > my_game->p1_paddle->x){ // paddle moving up
+        if(my_game->p1_paddle->last_y_pos > my_game->p1_paddle->y){ // paddle moving up
             my_game->game_ball->velocity_y += -2;
 
-        }else if(my_game->p1_paddle->last_y_pos < my_game->p1_paddle->x){ // paddle moving down
+        }else if(my_game->p1_paddle->last_y_pos < my_game->p1_paddle->y){ // paddle moving down
             my_game->game_ball->velocity_y += 2;
         }
 
     }else if(is_paddle_in_ball(my_game -> game_ball, my_game -> p2_paddle)){
 
-        my_game->game_ball->velocity_x *= -1; // double speed oposite x
+        my_game->game_ball->velocity_x = -abs(my_game->game_ball->velocity_x); // ensures ball goes left
         my_game->game_ball->velocity_x += -1;
         
-        if(my_game->p2_paddle->last_y_pos > my_game->p2_paddle->x){ // paddle moving up
+        if(my_game->p2_paddle->last_y_pos > my_game->p2_paddle->y){ // paddle moving up
             my_game->game_ball->velocity_y += -2;
 
-        }else if(my_game->p2_paddle->last_y_pos < my_game->p2_paddle->x){ // paddle moving down
+        }else if(my_game->p2_paddle->last_y_pos < my_game->p2_paddle->y){ // paddle moving down
             my_game->game_ball->velocity_y += 2;
         }
 
