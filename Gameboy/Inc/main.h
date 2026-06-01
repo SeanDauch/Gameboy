@@ -6,6 +6,9 @@
     #define system_frequency 20000000
     #define max_cols 240 // max y in games
     #define max_rows 320 // max x in games
+
+    #define background_color 'b'
+    #define sprite_color 'w'
     
     #define RCC_base 0x40023800
     #define RCC_CR *((volatile uint32_t*)(RCC_base + 0x00))

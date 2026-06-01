@@ -59,7 +59,9 @@ int main(){
 
     ILI9341_Init();
 
-    fill_screen('w');
+    fill_screen('r');
+
+    fill_screen(background_color);
 
     adc_GPIOA_init(3);
 

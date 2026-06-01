@@ -55,10 +55,10 @@ static void ball_bounce_paddle(pong_game* my_game){
         my_game->game_ball->velocity_x += 1;
 
         if(my_game->p1_paddle->last_y_pos > my_game->p1_paddle->x){ // paddle moving up
-            my_game->game_ball->velocity_y += -1;
+            my_game->game_ball->velocity_y += -2;
 
         }else if(my_game->p1_paddle->last_y_pos < my_game->p1_paddle->x){ // paddle moving down
-            my_game->game_ball->velocity_y += 1;
+            my_game->game_ball->velocity_y += 2;
         }
 
     }else if(is_paddle_in_ball(my_game -> game_ball, my_game -> p2_paddle)){
@@ -67,10 +67,10 @@ static void ball_bounce_paddle(pong_game* my_game){
         my_game->game_ball->velocity_x += -1;
         
         if(my_game->p2_paddle->last_y_pos > my_game->p2_paddle->x){ // paddle moving up
-            my_game->game_ball->velocity_y += -1;
+            my_game->game_ball->velocity_y += -2;
 
         }else if(my_game->p2_paddle->last_y_pos < my_game->p2_paddle->x){ // paddle moving down
-            my_game->game_ball->velocity_y += 1;
+            my_game->game_ball->velocity_y += 2;
         }
 
     }
@@ -92,7 +92,7 @@ void play_game(pong_game* my_game){
             move_paddle(my_game->p1_paddle,3);
 
         }else{
-            print_paddle(my_game->p1_paddle, 'b');
+            move_paddle(my_game->p1_paddle,0);
         }
         
 
@@ -103,7 +103,7 @@ void play_game(pong_game* my_game){
             move_paddle(my_game->p2_paddle,3);
 
         }else{
-            print_paddle(my_game->p2_paddle, 'b');
+            move_paddle(my_game->p2_paddle,0);
         }
 
         if(my_game->game_ball->bot_right_x >= max_rows){ // p1 wins
@@ -112,8 +112,8 @@ void play_game(pong_game* my_game){
         }else if(my_game->game_ball->top_left_x <= 0){ // p2 wins
             play = 0;
         }
-        delay_SysTick(20, system_frequency);
+        delay_SysTick(16, system_frequency); // 1000ms / 60 frames = 16
     }
 
-    fill_screen('b');
+    while(1){} // game hangs after it ends
 }

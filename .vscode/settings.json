@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "/home/sean/stm32/Gameboy/Gameboy"
+    "cmake.sourceDirectory": "/home/sean/home/stm32/Gameboy/Gameboy",
+    "cmake.buildDirectory": "${workspaceFolder}/Gameboy/build"
 }

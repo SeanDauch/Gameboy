@@ -6,17 +6,16 @@
 #include <stdlib.h>
 
 void print_ball(ball* game_ball, char color){
-    //fill_screen('w');// ! delete
+
     draw_Square(game_ball->top_left_y,
         game_ball->bot_right_y,
         game_ball->top_left_x,
         game_ball->bot_right_x,
         color
     );
-    //fill_screen('b');// ! delete
+
 }
 
-// returns pointer
 ball bouncing_ball_init(int ball_center_x, int ball_center_y, int ball_size){
 
     int velo_y = 0;
@@ -48,9 +47,6 @@ ball bouncing_ball_init(int ball_center_x, int ball_center_y, int ball_size){
         break;
     }
     
-
-
-
     ball game_ball = {
         ball_center_x - ball_size, // top left x
         ball_center_y - ball_size, // top left y
@@ -59,8 +55,7 @@ ball bouncing_ball_init(int ball_center_x, int ball_center_y, int ball_size){
         velo_x, velo_y
     };
 
-    print_ball(&game_ball, 'b');
-
+    print_ball(&game_ball, sprite_color);
     return game_ball;
 }
 
@@ -83,8 +78,9 @@ void ball_bounce_edge(ball* game_ball){
 }
 
 void move_ball(ball* game_ball){
+
     // erase old ball
-    print_ball(game_ball, 'w');
+    print_ball(game_ball, background_color);
 
     // shift ball over
     game_ball->top_left_x += game_ball->velocity_x;
@@ -93,5 +89,6 @@ void move_ball(ball* game_ball){
     game_ball->top_left_y += game_ball->velocity_y;
     game_ball->bot_right_y += game_ball->velocity_y;
 
-    print_ball(game_ball, 'b');
+    // print new ball
+    print_ball(game_ball, sprite_color);
 }

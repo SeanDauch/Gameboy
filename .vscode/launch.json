@@ -6,7 +6,7 @@
     "configurations": [
         {
             "cwd": "${workspaceFolder}",
-            "executable": "${workspaceFolder}/Gameboy/build/Debug/Gameboy.elf",
+            "executable": "${workspaceFolder}/Gameboy/build/Debug/Gameboy.elf",// Gameboy.elf = Gameboy
             "name": "Debug with OpenOCD",
             "request": "launch",
             "type": "cortex-debug",
