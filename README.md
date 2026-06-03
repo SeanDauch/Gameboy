@@ -23,4 +23,5 @@ Uses STM32F411ceu6
 5. ~~Use ADC to seed rand~~
 6. ~~Make ball bouce verticaly off the paddles~~
 7. Add DMA
-8. Add IMU for new game?
+8. Use timer interupts for 60fps
+9. Add IMU for new game?
