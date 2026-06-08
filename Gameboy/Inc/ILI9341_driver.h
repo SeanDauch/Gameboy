@@ -10,4 +10,7 @@
 
     void draw_Square_DMA(uint16_t start_col, uint16_t end_col, uint16_t start_row, uint16_t end_row, char color);
     void fill_screen_DMA(char color);
+
+    void display_off();
+    void display_on();
 #endif

@@ -3,6 +3,7 @@
 
     #include <stdint.h>
 
+    uint8_t spi1_busy();
     void spi1_gpioinit();
     void spi1_config();
     void spi1_send(uint8_t *data, uint32_t data_size);

@@ -126,7 +126,7 @@ void draw_Square(uint16_t start_col, uint16_t end_col, uint16_t start_row, uint1
         DC_Data();
         CS_enable();
 
-        for(int i = 0; i<total_pixel; i++){
+        for(uint64_t i = 0; i<total_pixel; i++){
             
             while(!(SPI_SR & (1<<1))){} // wait for TXE to empty
             SPI_DR = (RGB_color>>8); // High bit
@@ -148,7 +148,7 @@ void draw_Square_DMA(uint16_t start_col, uint16_t end_col, uint16_t start_row, u
 
     if(start_col > end_col || start_row > end_row){return;}
 
-    uint8_t RGB_color;
+    static uint8_t RGB_color;
     switch (color){
         case 'b': // black
             RGB_color = 0x00;
@@ -159,7 +159,9 @@ void draw_Square_DMA(uint16_t start_col, uint16_t end_col, uint16_t start_row, u
             break;
     }
 
-    WriteCommand(0x2a); // set col address
+    while(DMA_busy() | spi1_busy()){}
+
+              WriteCommand(0x2a); // set col address
         WriteData(start_col >> 8); // send high  byte
         WriteData((uint8_t)start_col);
         WriteData(end_col >> 8); // send high byte
@@ -177,13 +179,7 @@ void draw_Square_DMA(uint16_t start_col, uint16_t end_col, uint16_t start_row, u
         DC_Data();
         CS_enable();
 
-        //fill_screen('r'); //!
-
-        while(DMA_busy()){}
-
-        //fill_screen('b'); //!
-
-        DMA2_SPI1_config_s2c2(&RGB_color, total_pixel * 2);
+        DMA2_SPI1_config_s2c2(RGB_color, total_pixel * 2);
 }
 
 /* DOESNT WORK (overflows NDTR)

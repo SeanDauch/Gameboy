@@ -17,7 +17,9 @@
 #define SPI_SR *((volatile uint32_t*)(SPI1_Base + 0x08))
 #define SPI_DR *((volatile uint32_t*)(SPI1_Base + 0x0C))
 
-
+uint8_t spi1_busy(){
+    return SPI_SR & (1<<7);
+}
 
 void spi1_gpioinit(){
     // enable clock for GPIO A
@@ -56,7 +58,7 @@ void spi1_config(){
     SPI_CR1 |= (1<<8);
 
     // set the baud rate scaler to 1/2
-    SPI_CR1 &= ~(0b111<<3);
+    SPI_CR1 &= ~(7<<3);
 
     //enable spi module
     SPI_CR1 |= (1<<6);
@@ -66,7 +68,7 @@ void spi1_config(){
 void spi1_send(uint8_t *data, uint32_t data_size){
     uint8_t temp;
 
-    for(int i = 0; i<data_size ; i++){
+    for(uint32_t i = 0; i<data_size ; i++){
         
         // wait for send buffer to empty
         while(!(SPI_SR & (1<<1))){}
@@ -83,12 +85,12 @@ void spi1_send(uint8_t *data, uint32_t data_size){
     }
 
     // wait for BSY flag to reset
-    while(SPI_SR & (1<<7)){}
+    while(spi1_busy()){}
 }
 
 // array of 8-bit data with size data_size
 void spi1_receive(uint8_t *data, uint32_t data_size){
-    for(int i = 0; i<data_size; i++){
+    for(uint32_t i = 0; i<data_size; i++){
         // set dummy data for clock pulses
         SPI_DR = 0;
 

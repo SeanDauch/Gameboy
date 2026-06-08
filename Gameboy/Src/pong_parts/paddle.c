@@ -4,7 +4,7 @@
 
 void print_paddle(paddle* game_paddle, char color){
 
-    draw_Square(
+    draw_Square_DMA(
         game_paddle -> y - game_paddle -> length,
         game_paddle -> y + game_paddle -> length,
 

@@ -28,7 +28,7 @@ void DMA2_init(){
 }
 
 // 9.3.17 in refrence manual had config procedure
-void DMA2_SPI1_config_s2c2(uint8_t* data_start_addr, uint16_t data_length){
+void DMA2_SPI1_config_s2c2(uint8_t data_start, uint16_t data_length){
 
     // 1. disable/reset stream
     DMA_S2CR &= ~(1<<0);
@@ -40,7 +40,7 @@ void DMA2_SPI1_config_s2c2(uint8_t* data_start_addr, uint16_t data_length){
     DMA_S2PAR = (uint32_t)&SPI_DR;
 
     // 3. set inital memory address
-    DMA_S2M0AR = (uint32_t)data_start_addr;
+    DMA_S2M0AR = (uint32_t)&data_start;
 
     // 4. set length of transfer
     DMA_S2NDTR = data_length;

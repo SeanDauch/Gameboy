@@ -8,8 +8,8 @@
 #include <stdint.h>
 #include <stdlib.h> // need for abs val in ball bounce
 
-#define RCC_Base 0x40023800
-#define RCC_AHB1ENR *((volatile uint32_t*)(RCC_Base + 0x30))
+#define RCC_base 0x40023800
+#define RCC_AHB1ENR *((volatile uint32_t*)(RCC_base + 0x30))
 
 #define GPIOB_base 0x40020400
 #define GPIOB_MODER *((volatile uint32_t*)(GPIOB_base))
@@ -82,6 +82,7 @@ void play_game(pong_game* my_game){
 
     int play = 1;
     while(play == 1){
+
         move_ball(my_game->game_ball);
         ball_bounce_edge(my_game->game_ball);
         ball_bounce_paddle(my_game);
@@ -114,6 +115,7 @@ void play_game(pong_game* my_game){
         }else if(my_game->game_ball->top_left_x <= 0){ // p2 wins
             play = 0;
         }
+
         delay_SysTick(16, system_frequency); // 1000ms / 60 frames = 16
     }
 
