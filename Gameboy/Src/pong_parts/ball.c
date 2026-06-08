@@ -7,7 +7,7 @@
 
 void print_ball(ball* game_ball, char color){
 
-    draw_Square(game_ball->top_left_y,
+    draw_Square_DMA(game_ball->top_left_y,
         game_ball->bot_right_y,
         game_ball->top_left_x,
         game_ball->bot_right_x,

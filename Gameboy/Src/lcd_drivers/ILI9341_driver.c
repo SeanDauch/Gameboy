@@ -3,6 +3,7 @@
 #include "ILI9341_driver.h"
 #include "Delay.h"
 #include "main.h"
+#include "DMA_driver.h"
 
 #define GPIOA_Base 0x40020000
 #define GPIOA_MODER *((volatile uint32_t*)(GPIOA_Base + 0x00))
@@ -51,6 +52,9 @@ void ILI9341_Init(){
     // config for SPI
     spi1_gpioinit();
     spi1_config();
+
+    // DMA init
+    DMA2_init();
     
     // initilize P1,2 for output
     GPIOA_MODER &= ~((3<<2)|(3<<4));
@@ -138,3 +142,51 @@ void draw_Square(uint16_t start_col, uint16_t end_col, uint16_t start_row, uint1
 void fill_screen(char color){
     draw_Square(0, max_cols, 0, max_rows, color);
 }
+
+void draw_Square_DMA(uint16_t start_col, uint16_t end_col, uint16_t start_row, uint16_t end_row, char color){
+    if(start_col > max_cols || end_col > max_cols || start_row > max_rows || end_row > max_rows){return;}
+
+    if(start_col > end_col || start_row > end_row){return;}
+
+    uint8_t RGB_color;
+    switch (color){
+        case 'b': // black
+            RGB_color = 0x00;
+            break;
+        
+        case 'w': // white
+            RGB_color = 0xFF;
+            break;
+    }
+
+    WriteCommand(0x2a); // set col address
+        WriteData(start_col >> 8); // send high  byte
+        WriteData((uint8_t)start_col);
+        WriteData(end_col >> 8); // send high byte
+        WriteData((uint8_t)end_col);
+
+    WriteCommand(0x2b); // set row address
+        WriteData(start_row >> 8); // send high  byte
+        WriteData((uint8_t)start_row);
+        WriteData(end_row >> 8); // send high byte
+        WriteData((uint8_t)end_row);
+
+    uint32_t total_pixel = ((end_col-start_col+1)*(end_row-start_row+1));
+    WriteCommand(0x2C); // Memory Write
+
+        DC_Data();
+        CS_enable();
+
+        //fill_screen('r'); //!
+
+        while(DMA_busy()){}
+
+        //fill_screen('b'); //!
+
+        DMA2_SPI1_config_s2c2(&RGB_color, total_pixel * 2);
+}
+
+/* DOESNT WORK (overflows NDTR)
+void fill_screen_DMA(char color){
+    draw_Square_DMA(0, max_cols, 0, max_rows, color);
+}*/
